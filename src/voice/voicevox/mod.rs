@@ -1,3 +1,4 @@
-mod client;
+pub mod client;
 mod dictionary;
 mod format;
+mod audio;

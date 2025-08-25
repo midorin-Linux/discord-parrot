@@ -1,4 +1,5 @@
 use crate::Config;
+use crate::voice::manager::VoiceManager;
 use crate::voice::voicevox::client::Client as VoicevoxClient;
 use anyhow::{Context, Result};
 use serenity::{
@@ -21,6 +22,8 @@ use sqlx::SqlitePool;
 use tracing::{debug, info, warn, error, instrument};
 
 pub struct Handler {
+    pool: SqlitePool,
+    voice_manager: VoiceManager,
     voicevox_client: VoicevoxClient,
 }
 
@@ -28,11 +31,23 @@ impl Handler {
     pub async fn new(config: Config) -> Result<Self> {
         debug!("Initializing handler...");
 
+        let pool = SqlitePool::connect(&config.database_url).await.context("Failed to connect to database")?;
+
+        sqlx::query("CREATE TABLE IF NOT EXISTS sub_channel (id INTEGER PRIMARY KEY, guild_id INTEGER, voice_channel_id INTEGER, message_channel_id INTEGER)")
+            .execute(&pool)
+            .await
+            .context("Failed to create database schema")?;
+        info!("Database schema created");
+
+        let voice_manager = VoiceManager::new(pool.clone())?;
+
         let voicevox_client = VoicevoxClient::new(config.clone())?;
         
         debug!("Handler initialized");
         
         Ok(Self {
+            pool,
+            voice_manager,
             voicevox_client,
         })
     }

@@ -1,4 +1,4 @@
 pub mod client;
-mod dictionary;
-mod format;
-mod audio;
+pub mod dictionary;
+pub mod format;
+pub mod audio;

@@ -1,3 +1,3 @@
-mod manager;
+pub mod manager;
 mod playback;
 pub mod voicevox;

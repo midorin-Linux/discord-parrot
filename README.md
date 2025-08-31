@@ -15,9 +15,6 @@ src/
 │   ├── leave.rs          // VCから切断するコマンド
 │   ├── say.rs            // 音声合成してVCで再生するコマンド
 │   └── skip.rs           // 音声再生をスキップするコマンド
-├── database /
-│   ├── mod.rs
-│   └── types.rs          // データベースの型
 └── voice /
     ├── voicevox /
     │   ├── mod.rs

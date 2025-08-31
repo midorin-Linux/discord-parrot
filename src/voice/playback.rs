@@ -1,5 +1,5 @@
 use crate::config::Config;
-use crate::voice::voicevox::audio::Audio as VoicevoxAudio;
+use crate::voice::voicevox::client::Client as VoicevoxClient;
 use anyhow::Result;
 use serenity::{
     all::{Context, GuildId},
@@ -34,23 +34,23 @@ impl VoiceEventHandler for DeleteFileOnEnd {
     }
 }
 
-pub async fn play(ctx: &Context, voicevox_audio: &VoicevoxAudio, guild_id: GuildId, text: String) -> Result<()> {
+pub async fn play(ctx: &Context, voicevox_client: &VoicevoxClient, guild_id: GuildId, text: String) -> Result<()> {
     let manager = songbird::get(ctx).await
         .ok_or_else(|| anyhow::anyhow!("Songbirdマネージャーの取得に失敗しました"))?;
     let call = manager.get(guild_id)
         .ok_or_else(|| anyhow::anyhow!("ボイスチャンネルに接続されていません"))?;
 
-    let audio_query = voicevox_audio
+    let audio_query = voicevox_client
         .create_audio_query(&text, 8, 1.1)
         .await
         .map_err(|e| anyhow::anyhow!("音声クエリの生成に失敗しました: {}", e))?;
 
-    let wav_data = voicevox_audio
+    let wav_data = voicevox_client
         .synthesis(&audio_query, 8)
         .await
         .map_err(|e| anyhow::anyhow!("音声合成に失敗しました: {}", e))?;
 
-    let path = voicevox_audio
+    let path = voicevox_client
         .create_wav_file(wav_data)
         .await
         .map_err(|e| anyhow::anyhow!("WAVファイルの作成に失敗しました: {}", e))?;

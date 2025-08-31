@@ -2,19 +2,24 @@ mod handler;
 mod config;
 mod error;
 mod voice;
-mod database;
 mod commands;
+mod embed;
 
 use crate::config::Config;
 use crate::handler::Handler;
+use crate::voice::voicevox::client::Client as VoicevoxClient;
 
 use anyhow::{Context, Result};
 use serenity::{
     Client,
 };
 use songbird::SerenityInit;
-use std::env;
+use std::{
+    env,
+    path::Path,
+};
 use serenity::all::GatewayIntents;
+use sqlx::SqlitePool;
 use tracing::{debug, info, warn, error};
 use tracing_subscriber::{fmt, EnvFilter};
 

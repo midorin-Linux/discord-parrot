@@ -1,5 +1,3 @@
-mod dictionary;
-mod join;
-mod leave;
-mod say;
-mod skip;
+pub mod dictionary;
+pub mod join;
+pub mod leave;

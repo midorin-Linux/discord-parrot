@@ -41,7 +41,7 @@ impl VoiceManager {
         Ok(())
     }
 
-    pub async fn disconnect(&self, ctx: serenity::all::Context, guild_id: serenity::model::id::GuildId, channel_id: serenity::all::ChannelId) -> Result<()> {
+    pub async fn disconnect(&self, ctx: &serenity::all::Context, guild_id: serenity::model::id::GuildId, channel_id: serenity::all::ChannelId) -> Result<()> {
         let manager = songbird::get(&ctx)
             .await
             .ok_or_else(|| anyhow::anyhow!("Failed to get songbird manager"))?;

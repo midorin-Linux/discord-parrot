@@ -1,6 +1,9 @@
 # Discord音声合成ボット(discord-parrot)
 Discordで使える読み上げBOTです
 
+## 注意
+やる気がないので整備してないただのクソコードです
+
 ## ディレクトリ構造
 ```aiexclude
 src/

@@ -4,6 +4,7 @@ mod error;
 mod voice;
 mod commands;
 mod embed;
+mod cache;
 
 use crate::config::Config;
 use crate::handler::Handler;

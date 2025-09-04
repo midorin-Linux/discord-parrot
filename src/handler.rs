@@ -69,7 +69,6 @@ impl EventHandler for Handler {
     ))]
     async fn message(&self, ctx: serenity::all::Context, msg: Message) {
         if msg.author.bot {
-            debug!("Ignoring bot message");
             return;
         }
 
